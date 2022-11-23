@@ -1,0 +1,73 @@
+# Setup ####
+getwd()
+library(slam)
+library(NLP)
+
+reviews <- read.csv('reviews2011200.csv', header = TRUE, stringsAsFactors = FALSE)
+
+# Cleaning ####
+library(stringi)
+
+reviews$text <- stri_encode(reviews$text, "", "UTF-8")
+stri_enc_mark(reviews$text)
+
+# Summary ####
+lengths <- sapply(reviews$text, nchar) #number of chars in each review
+wordlength <- sapply(strsplit(reviews$text, " "), length)
+
+summary(wordlength) #mean 124.7
+hist(wordlength)
+
+library(ggplot2)
+
+qplot(wordlength, main="Histogram: Review Length",geom="histogram",
+      xlab = "Number of Words",
+      ylab = "Count",
+      col = I("white"),
+      fill = I("blue"),
+      bins = 30) 
+
+# Textmining ####
+
+library(textcat)
+languages <- textcat(reviews$text)
+texts <- reviews$text[languages == 'english'] #creates a list of only English reviews
+
+library(tm)
+library(SnowballC)
+Reviewscorpus <- VCorpus(VectorSource(texts), readerControl = list(reader = readPlain))
+
+Reviewscorpus <- tm_map(Reviewscorpus, removePunctuation)
+Reviewscorpus <- tm_map(Reviewscorpus, removeNumbers)
+Reviewscorpus <- tm_map(Reviewscorpus, content_transformer(tolower))
+Reviewscorpus <- tm_map(Reviewscorpus, removeWords, stopwords("english"))
+Reviewscorpus <- tm_map(Reviewscorpus, stripWhitespace)
+Reviewscorpus <- tm_map(Reviewscorpus, stemDocument)
+summary(Reviewscorpus)
+
+dtm <- DocumentTermMatrix(Reviewscorpus) #creates a term-document matrix
+
+library(slam)
+sort(col_sums(dtm), decreasing = TRUE)[1:10] #displays TF of terms in descending order
+
+dtmTfIdf <- weightTfIdf(dtm)
+sort(col_sums(dtmTfIdf), decreasing = TRUE)[1:10] #displays TF-IDF of terms in descending order
+
+# Cleanup ####
+detachAllPackages <- function() {
+  
+  basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
+  
+  package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
+  
+  package.list <- setdiff(package.list,basic.packages)
+  
+  if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
+  
+}
+
+detachAllPackages()
+
+rm(list=ls())
+dev.off()
+cat("\014")
