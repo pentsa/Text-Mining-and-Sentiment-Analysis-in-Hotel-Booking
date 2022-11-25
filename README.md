@@ -16,5 +16,14 @@ Hotel reviews become one of the important factors that people consider when maki
   -  Package (stringi) was installed to faciliate text strings processing
   -  stri_encode and stri_enc_mark functions were applied to convert string between encode.
 - data summary 
-  - sapply function was applied to 
+  - sapply function was applied to calculate the word length of  review. The mean was found to be 124.7
+  - ggplot function was applied to present the word length of reviews in histogram
+- Text freqeuncy matrix analysis 
+  -  the textcat package was installed to generate a list of english reviews for text mining 
+  -  the tm and SnowballCwas packages were also installed to generate reviews 
+  -  VCorpus function was applied to create volatile corpora, followed by tm_map function for further processing to clean up the corpora
+  -  The final term-document matrix was created using DocumentTermMatrix function 
+  -  The slam package was utilised to displays TF of terms in descending order
+ -  TF-IDF (Term frequency – inverse document frequency) matrix analysis
+  -  weightTfIdf function was utilised to create TF-IDF matrix, followed by presentation of the matrix using sort function
 ## Key findings
