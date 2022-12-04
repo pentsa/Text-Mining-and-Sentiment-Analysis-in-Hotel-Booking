@@ -11,7 +11,7 @@ Hotel reviews become one of the important factors that people consider when maki
 
 ## Content 
 - Dataset Retrieval 
-  -  The data from "customer reviews" was utilised for further text minning 
+  -  The data from "Hotel customer reviews" was utilised for further text minning 
 - Data cleaning 
   -  Package (stringi) was installed to faciliate text strings processing
   -  stri_encode and stri_enc_mark functions were applied to convert string between encode.
