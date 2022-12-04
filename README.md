@@ -11,10 +11,12 @@ Hotel reviews become one of the important factors that people consider when maki
 
 ## Content 
 - Dataset Retrieval 
-  -  The data from "..." was utilised for further text minning 
+  -  The data from "customer reviews" was utilised for further text minning 
 - Data cleaning 
   -  Package (stringi) was installed to faciliate text strings processing
   -  stri_encode and stri_enc_mark functions were applied to convert string between encode.
+  -  Transformations function(tm_map) was used to remove punctuation, numbers, and white space. 
+  -  Transformations function(tm_map) was applied to stem words in the customer reviews. 
 - data summary 
   - sapply function was applied to calculate the word length of  review. The mean was found to be 124.7
   - ggplot function was applied to present the word length of reviews in histogram
